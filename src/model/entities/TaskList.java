@@ -4,10 +4,25 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "TaskList")
 public class TaskList {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "taskList_sq")
+	@SequenceGenerator(name = "taskList_sq", sequenceName = "sq_taskList", allocationSize = 1, initialValue = 1)
 	private Long id;
-	private String name;
+
+	@Temporal(TemporalType.DATE)
 	private Date date;
 	
 	private List<Task> tasks = new ArrayList<>();
@@ -15,9 +30,8 @@ public class TaskList {
 	public TaskList() {
 	}
 
-	public TaskList(Long id, String name, Date date) {
+	public TaskList(Long id, Date date) {
 		this.id = id;
-		this.name = name;
 		this.date = date;
 	}
 
@@ -29,24 +43,12 @@ public class TaskList {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public Date getDate() {
 		return date;
 	}
 
 	public void setDate(Date date) {
 		this.date = date;
-	}
-
-	public List<Task> getTasks() {
-		return tasks;
 	}
 	
 	public void addTask(Task task) {
