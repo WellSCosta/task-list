@@ -15,7 +15,7 @@ import javax.persistence.TemporalType;
 import model.enums.Marking;
 
 @Entity
-@Table(name = "Task")
+@Table(name = "tb_task")
 public class Task {
 	
 	@Id
