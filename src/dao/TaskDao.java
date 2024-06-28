@@ -7,19 +7,62 @@ import javax.persistence.Persistence;
 import model.entities.Task;
 
 public class TaskDao implements ITaskDao{
+	
+	EntityManagerFactory emf;
+	EntityManager em;
 
 	@Override
 	public void cadastrar(Task task) {
+		openConnection();
 		
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("TaskListJPA");
-		EntityManager em = emf.createEntityManager();
-		
-		em.getTransaction().begin();
 		em.persist(task);
 		em.getTransaction().commit();
 		
+		closeConnection();
+	}
+
+	@Override
+	public void update(Task task) {
+		openConnection();
+		
+		em.merge(task);
+		em.getTransaction().commit();
+		
+		closeConnection();
+	}
+
+	@Override
+	public Task search(Long id) {
+		openConnection();
+		
+		Task task = em.find(Task.class, id);
+		em.getTransaction().commit();
+		
+		closeConnection();
+		return task;
+	}
+	
+	@Override
+	public void delete(Task task) {
+		openConnection();
+		
+		task = em.merge(task);
+		em.remove(task);
+		em.getTransaction().commit();
+		
+		closeConnection();
+	}
+
+	public EntityManager openConnection() {
+		emf = Persistence.createEntityManagerFactory("TaskListJPA");
+		em = emf.createEntityManager();
+		em.getTransaction().begin();
+		
+		return em;
+	}
+	
+	private void closeConnection() {
 		em.close();
 		emf.close();
 	}
-	
 }
