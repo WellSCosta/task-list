@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Test;
@@ -26,13 +27,17 @@ public class TaskTest {
 	//Method to run after all others
 	@After
 	public void end() {
+		List<Task> tasks = taskDao.searchAll();
 		
+		for (Task task : tasks) {
+			taskDao.delete(task);
+		}
 	}
 	
 	@Test
 	public void saveTask() {
 		Task task = createTask();
-		taskDao.cadastrar(task);
+		taskDao.save(task);
 		assertNotNull(task);
 		assertNotNull(task.getId());
 	}
@@ -41,7 +46,7 @@ public class TaskTest {
 	public void updateTask() {
 		//saveTask
 		Task task = createTask();
-		taskDao.cadastrar(task);
+		taskDao.save(task);
 		Long id = task.getId();
 		assertNotNull(task);
 		assertNotNull(id);
@@ -60,7 +65,7 @@ public class TaskTest {
 	public void searchTest() {
 		//saveTask
 		Task task = createTask();
-		taskDao.cadastrar(task);
+		taskDao.save(task);
 		Long id = task.getId();
 		assertNotNull(task);
 		assertNotNull(id);
@@ -76,7 +81,7 @@ public class TaskTest {
 	public void deleteTest() {
 		//saveTask
 		Task task = createTask();
-		taskDao.cadastrar(task);
+		taskDao.save(task);
 		Long id = task.getId();
 		assertNotNull(task);
 		assertNotNull(id);
@@ -93,6 +98,29 @@ public class TaskTest {
 		//search
 		Task taskSearch1 = taskDao.search(id);
 		assertNull(taskSearch1);
+	}
+	
+	@Test
+	public void searchAllTest() {
+		//saveTask 1
+		Task task1 = createTask();
+		taskDao.save(task1);
+		Long id1 = task1.getId();
+		assertNotNull(task1);
+		assertNotNull(id1);
+		assertEquals("TaskTest", task1.getName());
+		
+		//saveTask 2
+		Task task2 = createTask();
+		taskDao.save(task2);
+		Long id2 = task2.getId();
+		assertNotNull(task2);
+		assertNotNull(id2);
+		assertEquals("TaskTest", task2.getName());
+		
+		//searchAll
+		List<Task> tasks = taskDao.searchAll();
+		assertEquals(2, tasks.size());
 	}
 	
 	public Task createTask() {

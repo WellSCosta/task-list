@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -12,7 +14,7 @@ public class TaskDao implements ITaskDao{
 	EntityManager em;
 
 	@Override
-	public void cadastrar(Task task) {
+	public void save(Task task) {
 		openConnection();
 		
 		em.persist(task);
@@ -64,5 +66,17 @@ public class TaskDao implements ITaskDao{
 	private void closeConnection() {
 		em.close();
 		emf.close();
+	}
+
+	@Override
+	public List<Task> searchAll() {
+		openConnection();
+		
+		List<Task> tasks = em.createQuery("SELECT obj FROM Task obj", Task.class).getResultList();
+		em.getTransaction().commit();
+		
+		closeConnection();
+		
+		return tasks;
 	}
 }

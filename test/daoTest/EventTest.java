@@ -30,7 +30,7 @@ public class EventTest {
 	@Test
 	public void saveEvent() {
 		Event event = createEvent();
-		taskDao.cadastrar(event);
+		taskDao.save(event);
 		assertNotNull(event);
 		assertNotNull(event.getId());
 	}
@@ -39,7 +39,7 @@ public class EventTest {
 	public void updateEvent() {
 		//saveEvent
 		Event event = createEvent();
-		taskDao.cadastrar(event);
+		taskDao.save(event);
 		Long id = event.getId();
 		assertNotNull(event);
 		assertNotNull(id);

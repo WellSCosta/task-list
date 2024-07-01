@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -40,6 +41,9 @@ public class Task {
 	
 	@Column(name = "mark", length = 25, nullable = false)
 	protected Marking mark;
+	
+	@ManyToOne
+	protected TaskList taskList;
 	
 	public Task() {
 	}
