@@ -103,6 +103,14 @@ public class Task {
 		this.date = date;
 	}
 
+	public TaskList getTaskList() {
+		return taskList;
+	}
+
+	public void setTaskList(TaskList taskList) {
+		this.taskList = taskList;
+	}
+
 	@Override
 	public String toString() {
 		return "Task [id=" + id + ", name=" + name + ", mark=" + mark + "]";

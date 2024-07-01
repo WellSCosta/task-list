@@ -2,14 +2,25 @@ package dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import model.entities.TaskList;
 
 public class TaskListDao implements ITaskListDao{
+	
+	EntityManagerFactory emf;
+	EntityManager em;
 
 	@Override
 	public void create(TaskList list) {
-		// TODO Auto-generated method stub
+		openConnection();
 		
+		em.persist(list);
+		em.getTransaction().commit();
+		
+		closeConnection();
 	}
 
 	@Override
@@ -35,5 +46,15 @@ public class TaskListDao implements ITaskListDao{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	public void openConnection() {
+		emf = Persistence.createEntityManagerFactory("TaskListJPA");
+		em = emf.createEntityManager();
+		em.getTransaction().begin();
+	}
+	
+	private void closeConnection() {
+		em.close();
+		emf.close();
+	}
 }

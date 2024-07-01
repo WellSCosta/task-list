@@ -8,33 +8,29 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-//@Entity
-//@Table(name = "tb_tasklist")
+@Entity
+@Table(name = "tb_tasklist")
 public class TaskList {
 	
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "taskList_sq")
-	//@SequenceGenerator(name = "taskList_sq", sequenceName = "sq_taskList", allocationSize = 1, initialValue = 1)
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "taskList_sq")
+	@SequenceGenerator(name = "taskList_sq", sequenceName = "sq_taskList", allocationSize = 1, initialValue = 1)
 	private Long id;
 
-	//@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.DATE)
 	private Date date;
 	
-	//@OneToMany(mappedBy = "taskList")
+	@OneToMany(mappedBy = "taskList")
 	private List<Task> tasks;
 	
 	public TaskList() {
-	}
-
-	public TaskList(Long id, Date date) {
-		this.id = id;
-		this.date = date;
 		tasks = new ArrayList<>();
 	}
 
