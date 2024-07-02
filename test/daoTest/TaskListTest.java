@@ -1,7 +1,10 @@
 package daoTest;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Test;
@@ -18,6 +21,8 @@ public class TaskListTest {
 	
 	private ITaskListDao taskListDao;
 	private ITaskDao taskDao;
+	
+	Calendar calendar = Calendar.getInstance();
 	
 	public TaskListTest() {
 		taskListDao = new TaskListDao();
@@ -45,6 +50,43 @@ public class TaskListTest {
 		//save tasks
 		saveTask(task, list);
 		saveTask(task2, list);
+	}
+	
+	@Test
+	public void updateTest() {
+		//create task
+		Task task = createTask();
+		Date firstDate;
+		Date secondDate;
+		TaskList list = new TaskList();
+		
+		//save list
+		firstDate = new Date();
+		list.setDate(firstDate);
+		list.addTask(task);
+		taskListDao.create(list);
+		firstDate = list.getDate();
+		Long id1 = list.getId();
+
+		assertNotNull(list);
+		assertNotNull(list.getId());
+		
+		//save task
+		saveTask(task, list);
+		
+		//update list's date (day + 1)
+		calendar.setTime(firstDate);
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		
+		
+		secondDate = calendar.getTime();;
+		list.setDate(secondDate);
+		taskListDao.update(list);
+		Long id2 = list.getId();
+		
+		assertNotNull(list);
+		assertNotEquals(firstDate, list.getDate());
+		assertEquals(id1, id2);
 	}
 	
 	public void saveTask(Task task, TaskList list) {

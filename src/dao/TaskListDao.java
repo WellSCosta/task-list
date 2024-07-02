@@ -25,8 +25,12 @@ public class TaskListDao implements ITaskListDao{
 
 	@Override
 	public void update(TaskList list) {
-		// TODO Auto-generated method stub
+		openConnection();
 		
+		em.merge(list);
+		em.getTransaction().commit();
+		
+		closeConnection();
 	}
 
 	@Override
