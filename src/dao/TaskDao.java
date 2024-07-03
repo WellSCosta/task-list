@@ -73,7 +73,7 @@ public class TaskDao implements ITaskDao{
 	public List<Task> searchAllTask() {
 		openConnection();
 		
-		List<Task> tasks = em.createQuery("SELECT t FROM Task t WHERE TYPE(p) = Task", Task.class).getResultList();
+		List<Task> tasks = em.createQuery("SELECT t FROM Task t WHERE TYPE(t) = Task", Task.class).getResultList();
 		em.getTransaction().commit();
 		
 		closeConnection();

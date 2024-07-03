@@ -27,10 +27,10 @@ public class EventTest {
 	//Method to run after all others
 	@After
 	public void end() {
-		List<Task> events = taskDao.searchAllTask();
+		List<Task> tasks = taskDao.searchAll();
 		
-		for (Task event : events) {
-			taskDao.delete(event);
+		for (Task task : tasks) {
+			taskDao.delete(task);
 		}
 	}
 	
@@ -59,17 +59,6 @@ public class EventTest {
 		assertNotNull(event.getId());
 		assertEquals(id, event.getId());
 		assertEquals("EventTestUpdate", event.getName());
-	}
-	
-	public Event createEvent() {
-		Event event = new Event();
-		event.setName("EventTest");
-		event.setNote("AnnotationEvent");
-		event.setDate(new Date());
-		event.setMark(Marking.NEXTDAY);
-		event.setHour(new Date());
-		
-		return event;
 	}
 	
 	@Test
@@ -129,8 +118,37 @@ public class EventTest {
 		assertNotNull(id1);
 		assertEquals("EventTest", event1.getName());
 		
+		//saveTask
+		Task task1 = createTask();
+		taskDao.save(task1);
+		Long id3 = task1.getId();
+		assertNotNull(task1);
+		assertNotNull(id3);
+		assertEquals("TaskTest", task1.getName());
+		
 		//searchAll
 		List<Event> events = taskDao.searchAllEvent();
 		assertEquals(2, events.size());
+	}
+	
+	public Event createEvent() {
+		Event event = new Event();
+		event.setName("EventTest");
+		event.setNote("AnnotationEvent");
+		event.setDate(new Date());
+		event.setMark(Marking.NEXTDAY);
+		event.setHour(new Date());
+		
+		return event;
+	}
+	
+	public Task createTask() {
+		Task task = new Task();
+		task.setName("TaskTest");
+		task.setNote("AnnotationTask");
+		task.setDate(new Date());
+		task.setMark(Marking.NEXTDAY);
+		
+		return task;
 	}
 }

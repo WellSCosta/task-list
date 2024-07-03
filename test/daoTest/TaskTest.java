@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import dao.ITaskDao;
 import dao.TaskDao;
+import model.entities.Event;
 import model.entities.Task;
 import model.enums.Marking;
 
@@ -27,7 +28,7 @@ public class TaskTest {
 	//Method to run after all others
 	@After
 	public void end() {
-		List<Task> tasks = taskDao.searchAllTask();
+		List<Task> tasks = taskDao.searchAll();
 		
 		for (Task task : tasks) {
 			taskDao.delete(task);
@@ -101,7 +102,7 @@ public class TaskTest {
 	}
 	
 	@Test
-	public void searchAllTest() {
+	public void searchAllTaskTest() {
 		//saveTask 1
 		Task task1 = createTask();
 		taskDao.save(task1);
@@ -118,8 +119,39 @@ public class TaskTest {
 		assertNotNull(id2);
 		assertEquals("TaskTest", task2.getName());
 		
+		//saveEvent
+		Event event = createEvent();
+		taskDao.save(event);
+		Long id3 = event.getId();
+		assertNotNull(event);
+		assertNotNull(id3);
+		assertEquals("EventTest", event.getName());
+		
 		//searchAll
 		List<Task> tasks = taskDao.searchAllTask();
+		assertEquals(2, tasks.size());
+	}
+	
+	@Test
+	public void searchAllTest() {
+		//saveTask
+		Task task1 = createTask();
+		taskDao.save(task1);
+		Long id1 = task1.getId();
+		assertNotNull(task1);
+		assertNotNull(id1);
+		assertEquals("TaskTest", task1.getName());
+		
+		//saveEvent
+		Event event = createEvent();
+		taskDao.save(event);
+		Long id2 = event.getId();
+		assertNotNull(event);
+		assertNotNull(id2);
+		assertEquals("EventTest", event.getName());
+		
+		//searchAll
+		List<Task> tasks = taskDao.searchAll();
 		assertEquals(2, tasks.size());
 	}
 	
@@ -131,5 +163,16 @@ public class TaskTest {
 		task.setMark(Marking.NEXTDAY);
 		
 		return task;
+	}
+	
+	public Event createEvent() {
+		Event event = new Event();
+		event.setName("EventTest");
+		event.setNote("AnnotationEvent");
+		event.setDate(new Date());
+		event.setMark(Marking.NEXTDAY);
+		event.setHour(new Date());
+		
+		return event;
 	}
 }
