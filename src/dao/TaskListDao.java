@@ -57,8 +57,14 @@ public class TaskListDao implements ITaskListDao{
 
 	@Override
 	public List<TaskList> searchAll() {
-		// TODO Auto-generated method stub
-		return null;
+		openConnection();
+		
+		List<TaskList> list = em.createQuery("SELECT obj FROM TaskList obj", TaskList.class).getResultList();
+		em.getTransaction().commit();
+		
+		closeConnection();
+		
+		return list;
 	}
 	
 	public void openConnection() {

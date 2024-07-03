@@ -3,10 +3,13 @@ package daoTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+import org.junit.After;
 import org.junit.Test;
 
 import dao.ITaskDao;
@@ -27,6 +30,14 @@ public class TaskListTest {
 	public TaskListTest() {
 		taskListDao = new TaskListDao();
 		taskDao = new TaskDao();
+	}
+	
+	@After
+	public void end() {
+		List<TaskList> list = taskListDao.searchAll();
+		for (TaskList tl : list) {
+			taskListDao.delete(tl);
+		}
 	}
 	
 	@Test
@@ -109,8 +120,19 @@ public class TaskListTest {
 		//save task
 		saveTask(task, list);
 		
+		//search list
+		TaskList listSearch = taskListDao.search(list.getId());
+		
+		assertNotNull(listSearch);
+		assertNotNull(listSearch.getId());
+		
 		//remove list
 		taskListDao.delete(list);
+		
+		//search list
+		TaskList listSearch2 = taskListDao.search(list.getId());
+		
+		assertNull(listSearch2);
 	}
 	
 	@Test
@@ -141,6 +163,47 @@ public class TaskListTest {
 		assertEquals(list.getId(), listSearch.getId());
 		
 		assertEquals(task.getTaskList().getId(), listSearch.getId());
+	}
+	
+	@Test
+	public void searchAllTest() {
+		//create Tasklist1
+		Task task = createTask();
+		Task task2 = createTask();
+		
+		TaskList list = new TaskList();
+
+		list.setDate(new Date());
+		list.addTask(task);
+		list.addTask(task2);
+		
+		taskListDao.create(list);
+		assertNotNull(list);
+		assertNotNull(list.getId());
+
+		saveTask(task, list);
+		saveTask(task2, list);
+		
+		//create Tasklist2
+		Task task3 = createTask();
+		Task task4 = createTask();
+
+		TaskList list2 = new TaskList();
+
+		list2.setDate(new Date());
+		list2.addTask(task3);
+		list2.addTask(task4);
+		
+		taskListDao.create(list2);
+		assertNotNull(list2);
+		assertNotNull(list2.getId());
+
+		saveTask(task3, list2);
+		saveTask(task4, list2);
+		
+		//searchAll
+		List<TaskList> tlList = taskListDao.searchAll();
+		assertEquals(2, tlList.size());
 	}
 	
 	public void saveTask(Task task, TaskList list) {
