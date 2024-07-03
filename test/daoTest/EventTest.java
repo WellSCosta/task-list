@@ -2,8 +2,10 @@ package daoTest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Test;
@@ -11,6 +13,7 @@ import org.junit.Test;
 import dao.ITaskDao;
 import dao.TaskDao;
 import model.entities.Event;
+import model.entities.Task;
 import model.enums.Marking;
 
 public class EventTest {
@@ -23,8 +26,12 @@ public class EventTest {
 	
 	//Method to run after all others
 	@After
-	public void deleteAll() {
+	public void end() {
+		List<Task> events = taskDao.searchAllTask();
 		
+		for (Task event : events) {
+			taskDao.delete(event);
+		}
 	}
 	
 	@Test
@@ -63,5 +70,67 @@ public class EventTest {
 		event.setHour(new Date());
 		
 		return event;
+	}
+	
+	@Test
+	public void searchEvent() {
+		//saveEvent
+		Event event = createEvent();
+		taskDao.save(event);
+		Long id = event.getId();
+		assertNotNull(event);
+		assertNotNull(id);
+		assertEquals("EventTest", event.getName());
+		
+		//search
+		Event taskSearch = (Event) taskDao.search(id);
+		assertNotNull(taskSearch);
+		assertEquals("EventTest", taskSearch.getName());
+	}
+	
+	@Test
+	public void deleteEvent() {
+		//saveEvent
+		Event event = createEvent();
+		taskDao.save(event);
+		Long id = event.getId();
+		assertNotNull(event);
+		assertNotNull(id);
+		assertEquals("EventTest", event.getName());
+		
+		//search
+		Event eventSearch = (Event) taskDao.search(id);
+		assertNotNull(eventSearch);
+		assertEquals("EventTest", eventSearch.getName());
+		
+		//delete
+		taskDao.delete(eventSearch);
+		
+		//search
+		Event eventSearch1 = (Event) taskDao.search(id);
+		assertNull(eventSearch1);
+	}
+	
+	@Test
+	public void searchAllEvent() {
+		//saveEvent
+		Event event = createEvent();
+		taskDao.save(event);
+		Long id = event.getId();
+		assertNotNull(event);
+		assertNotNull(id);
+		assertEquals("EventTest", event.getName());
+		
+		//saveEvent
+		Event event1 = createEvent();
+		taskDao.save(event1);
+		Long id1 = event1.getId();
+		assertNotNull(event1);
+		assertNotNull(id1);
+		assertEquals("EventTest", event1.getName());
+		
+		//searchAll
+		List<Event> events = taskDao.searchAllEvent();
+		assertEquals(2, events.size());
 	}
 }

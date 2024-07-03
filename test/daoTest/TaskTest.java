@@ -27,7 +27,7 @@ public class TaskTest {
 	//Method to run after all others
 	@After
 	public void end() {
-		List<Task> tasks = taskDao.searchAll();
+		List<Task> tasks = taskDao.searchAllTask();
 		
 		for (Task task : tasks) {
 			taskDao.delete(task);
@@ -119,7 +119,7 @@ public class TaskTest {
 		assertEquals("TaskTest", task2.getName());
 		
 		//searchAll
-		List<Task> tasks = taskDao.searchAll();
+		List<Task> tasks = taskDao.searchAllTask();
 		assertEquals(2, tasks.size());
 	}
 	

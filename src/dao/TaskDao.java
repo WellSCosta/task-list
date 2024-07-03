@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import model.entities.Event;
 import model.entities.Task;
 
 public class TaskDao implements ITaskDao{
@@ -69,10 +70,34 @@ public class TaskDao implements ITaskDao{
 	}
 
 	@Override
+	public List<Task> searchAllTask() {
+		openConnection();
+		
+		List<Task> tasks = em.createQuery("SELECT t FROM Task t WHERE TYPE(p) = Task", Task.class).getResultList();
+		em.getTransaction().commit();
+		
+		closeConnection();
+		
+		return tasks;
+	}
+
+	@Override
+	public List<Event> searchAllEvent() {
+		openConnection();
+		
+		List<Event> events = em.createQuery("SELECT e FROM Event e WHERE TYPE(e) = Event", Event.class).getResultList();
+		em.getTransaction().commit();
+		
+		closeConnection();
+		
+		return events;
+	}
+	
+	@Override
 	public List<Task> searchAll() {
 		openConnection();
 		
-		List<Task> tasks = em.createQuery("SELECT obj FROM Task obj", Task.class).getResultList();
+		List<Task> tasks = em.createQuery("SELECT t FROM Task t", Task.class).getResultList();
 		em.getTransaction().commit();
 		
 		closeConnection();
