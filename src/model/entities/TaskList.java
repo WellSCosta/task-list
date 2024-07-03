@@ -14,6 +14,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 @Entity
 @Table(name = "tb_tasklist")
 public class TaskList {
@@ -27,6 +30,7 @@ public class TaskList {
 	private Date date;
 	
 	@OneToMany(mappedBy = "taskList")
+	@Cascade(value = {CascadeType.DELETE})
 	private List<Task> tasks;
 	
 	public TaskList() {

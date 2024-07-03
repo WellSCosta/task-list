@@ -35,14 +35,24 @@ public class TaskListDao implements ITaskListDao{
 
 	@Override
 	public void delete(TaskList list) {
-		// TODO Auto-generated method stub
+		openConnection();
 		
+		list = em.merge(list);
+		em.remove(list);
+		em.getTransaction().commit();
+		
+		closeConnection();
 	}
 
 	@Override
 	public TaskList search(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		openConnection();
+		
+		TaskList list = em.find(TaskList.class, id);
+		em.getTransaction().commit();
+		
+		closeConnection();
+		return list;
 	}
 
 	@Override

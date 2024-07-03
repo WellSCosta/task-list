@@ -3,6 +3,7 @@ package daoTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -87,6 +88,30 @@ public class TaskListTest {
 		assertNotNull(list);
 		assertNotEquals(firstDate, list.getDate());
 		assertEquals(id1, id2);
+	}
+	
+	@Test
+	public void deleteTest() {
+		//create task
+		Task task = createTask();
+		Date date;
+		TaskList list = new TaskList();
+		
+		//save list
+		date = new Date();
+		list.setDate(date);
+		list.addTask(task);
+		taskListDao.create(list);
+		date = list.getDate();
+
+		assertNotNull(list);
+		assertNotNull(list.getId());
+		
+		//save task
+		saveTask(task, list);
+		
+		//remove list
+		taskListDao.delete(list);
 	}
 	
 	public void saveTask(Task task, TaskList list) {
