@@ -1,12 +1,5 @@
 package application;
 
-import java.util.Date;
-
-import model.entities.Event;
-import model.entities.Task;
-import model.entities.TaskList;
-import model.enums.Marking;
-
 public class Program {
 
 	public static void main(String[] args) {

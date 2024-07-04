@@ -11,18 +11,26 @@ import org.junit.After;
 import org.junit.Test;
 
 import dao.ITaskDao;
+import dao.ITaskListDao;
 import dao.TaskDao;
+import dao.TaskListDao;
 import model.entities.Event;
 import model.entities.Task;
+import model.entities.TaskList;
 import model.enums.Marking;
 
 public class TaskTest {
 	
 	private ITaskDao taskDao;
+	private ITaskListDao taskListDao;
+	
+	private TaskList list;
 	
 	//Constructor instantiating the DAO
 	public TaskTest() {
 		taskDao = new TaskDao();
+		taskListDao = new TaskListDao();
+		list = saveTaskList();
 	}
 	
 	//Method to run after all others
@@ -32,6 +40,12 @@ public class TaskTest {
 		
 		for (Task task : tasks) {
 			taskDao.delete(task);
+		}
+		
+		List<TaskList> tls = taskListDao.searchAll();
+		
+		for (TaskList list : tls) {
+			taskListDao.delete(list);
 		}
 	}
 	
@@ -161,6 +175,7 @@ public class TaskTest {
 		task.setNote("AnnotationTask");
 		task.setDate(new Date());
 		task.setMark(Marking.NEXTDAY);
+		task.setTaskList(list);
 		
 		return task;
 	}
@@ -172,7 +187,15 @@ public class TaskTest {
 		event.setDate(new Date());
 		event.setMark(Marking.NEXTDAY);
 		event.setHour(new Date());
+		event.setTaskList(list);
 		
 		return event;
+	}
+	
+	public TaskList saveTaskList() {
+		TaskList list = new TaskList();
+		list.setDate(new Date());
+		
+		return taskListDao.create(list);
 	}
 }

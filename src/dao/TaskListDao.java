@@ -14,23 +14,27 @@ public class TaskListDao implements ITaskListDao{
 	EntityManager em;
 
 	@Override
-	public void create(TaskList list) {
+	public TaskList create(TaskList list) {
 		openConnection();
 		
 		em.persist(list);
 		em.getTransaction().commit();
 		
 		closeConnection();
+		
+		return list;
 	}
 
 	@Override
-	public void update(TaskList list) {
+	public TaskList update(TaskList list) {
 		openConnection();
 		
-		em.merge(list);
+		list = em.merge(list);
 		em.getTransaction().commit();
 		
 		closeConnection();
+		
+		return list;
 	}
 
 	@Override

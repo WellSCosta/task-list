@@ -6,9 +6,9 @@ import model.entities.TaskList;
 
 public interface ITaskListDao {
 	
-	public void create(TaskList list);
+	public TaskList create(TaskList list);
 	
-	public void update(TaskList list);
+	public TaskList update(TaskList list);
 	
 	public void delete(TaskList list);
 	

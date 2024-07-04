@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,20 +32,22 @@ public class Task {
 	@SequenceGenerator(name = "task_sq", sequenceName = "sq_task", initialValue = 1, allocationSize = 1)
 	protected Long id;
 	
-	@Temporal(TemporalType.DATE)
-	protected Date date;
-	
 	@Column(name = "name", length = 50, nullable = false)
 	protected String name;
 	
 	@Column(name = "note", length = 250, nullable = true)
 	protected String note;
 	
+	@Temporal(TemporalType.DATE)
+	protected Date date;
+	
 	@Column(name = "mark", length = 25, nullable = false)
 	protected Marking mark;
 	
 	@ManyToOne
-	@JoinColumn(name = "list_id")
+	@JoinColumn(name = "list_id", 
+	foreignKey = @ForeignKey(name = "fk_TaskList_Task"),
+	referencedColumnName = "id", nullable = false)
 	protected TaskList taskList;
 	
 	public Task() {
