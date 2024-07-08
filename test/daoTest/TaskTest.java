@@ -169,6 +169,41 @@ public class TaskTest {
 		assertEquals(2, tasks.size());
 	}
 	
+	@Test
+	public void searchByNameTest() {
+		//saveTask 1
+		Task task1 = createTask();
+		taskDao.save(task1);
+		Long id1 = task1.getId();
+		assertNotNull(task1);
+		assertNotNull(id1);
+		assertEquals("TaskTest", task1.getName());
+		
+		//saveTask 2
+		Task task2 = createTask();
+		taskDao.save(task2);
+		Long id2 = task2.getId();
+		assertNotNull(task2);
+		assertNotNull(id2);
+		assertEquals("TaskTest", task2.getName());
+		
+		//saveTask 3
+		Task task3 = new Task();
+		task3.setName("Test");
+		task3.setNote("AnnotationTask");
+		task3.setDate(new Date());
+		task3.setMark(Marking.NEXTDAY);
+		task3.setTaskList(list);
+		taskDao.save(task3);
+		Long id3 = task3.getId();
+		assertNotNull(task3);
+		assertNotNull(id3);
+		assertEquals("Test", task3.getName());
+		
+		List<Task> tasks = taskDao.searchByName("TaskTest");
+		assertEquals(2, tasks.size());
+	}
+	
 	public Task createTask() {
 		Task task = new Task();
 		task.setName("TaskTest");

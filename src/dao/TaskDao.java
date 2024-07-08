@@ -117,4 +117,25 @@ public class TaskDao implements ITaskDao{
 		
 		return tasks;
 	}
+
+	@Override
+	public List<Task> searchByName(String name) {
+		openConnection();
+		
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Task> cq = cb.createQuery(Task.class);
+		
+		Root<Task> root = cq.from(Task.class);
+		
+		cq.select(root);
+		cq.where(cb.equal(root.get("name"), name));
+		
+		TypedQuery<Task> tq = em.createQuery(cq);
+		List<Task> tasks = tq.getResultList();
+		em.getTransaction().commit();
+		
+		closeConnection();
+		
+		return tasks;
+	}
 }

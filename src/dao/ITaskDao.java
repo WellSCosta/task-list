@@ -20,5 +20,7 @@ public interface ITaskDao {
 	List<Event> searchAllEvent();
 	
 	List<Task> searchAll();
+	
+	List<Task> searchByName(String name);
 
 }
