@@ -5,6 +5,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import model.entities.Event;
 import model.entities.Task;
@@ -97,7 +101,16 @@ public class TaskDao implements ITaskDao{
 	public List<Task> searchAll() {
 		openConnection();
 		
-		List<Task> tasks = em.createQuery("SELECT t FROM Task t", Task.class).getResultList();
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		
+		CriteriaQuery<Task> cq = cb.createQuery(Task.class);
+		
+		Root<Task> root = cq.from(Task.class);
+		cq.select(root);
+		
+		TypedQuery<Task> tq = em.createQuery(cq);
+		
+		List<Task> tasks = tq.getResultList();
 		em.getTransaction().commit();
 		
 		closeConnection();

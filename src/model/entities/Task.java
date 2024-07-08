@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -41,7 +43,7 @@ public class Task {
 	@Temporal(TemporalType.DATE)
 	protected Date date;
 	
-	@Column(name = "mark", length = 25, nullable = false)
+	@Enumerated(EnumType.STRING)
 	protected Marking mark;
 	
 	@ManyToOne
