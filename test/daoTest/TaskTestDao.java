@@ -19,7 +19,7 @@ import model.entities.Task;
 import model.entities.TaskList;
 import model.enums.Marking;
 
-public class TaskTest {
+public class TaskTestDao {
 	
 	private ITaskDao taskDao;
 	private ITaskListDao taskListDao;
@@ -27,7 +27,7 @@ public class TaskTest {
 	private TaskList list;
 	
 	//Constructor instantiating the DAO
-	public TaskTest() {
+	public TaskTestDao() {
 		taskDao = new TaskDao();
 		taskListDao = new TaskListDao();
 		list = saveTaskList();

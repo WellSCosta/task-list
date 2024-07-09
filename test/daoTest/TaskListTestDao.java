@@ -20,14 +20,14 @@ import model.entities.Task;
 import model.entities.TaskList;
 import model.enums.Marking;
 
-public class TaskListTest {
+public class TaskListTestDao {
 	
 	private ITaskListDao taskListDao;
 	private ITaskDao taskDao;
 	
 	Calendar calendar = Calendar.getInstance();
 	
-	public TaskListTest() {
+	public TaskListTestDao() {
 		taskListDao = new TaskListDao();
 		taskDao = new TaskDao();
 	}
