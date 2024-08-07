@@ -54,14 +54,6 @@ public class Task {
 	
 	public Task() {
 	}
-
-	public Task(Long id, Date date, String name, String note, Marking mark) {
-		this.id = id;
-		this.date = date;
-		this.name = name;
-		this.note = note;
-		this.mark = mark;
-	}
 	
 	public Task(String name, Date date, String note, Marking mark) {
 		this.name = name;
