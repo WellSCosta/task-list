@@ -5,4 +5,5 @@ public enum Marking {
 	COMPLETED,
 	CANCELED,
 	NEXTDAY,
+	LATE;
 }
