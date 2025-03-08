@@ -4,12 +4,12 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import com.wellscosta.config.JpaUtil;
 import com.wellscosta.model.entities.TaskList;
 
 public class TaskListDao implements ITaskListDao{
@@ -85,7 +85,7 @@ public class TaskListDao implements ITaskListDao{
 	}
 	
 	public void openConnection() {
-		emf = Persistence.createEntityManagerFactory("TaskListJPA");
+		emf = JpaUtil.getEntityManagerFactory();
 		em = emf.createEntityManager();
 		em.getTransaction().begin();
 	}

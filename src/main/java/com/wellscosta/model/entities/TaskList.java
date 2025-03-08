@@ -17,8 +17,13 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 @Entity
 @Table(name = "tb_tasklist")
+@Data
+@AllArgsConstructor
 public class TaskList {
 	
 	@Id
@@ -31,30 +36,10 @@ public class TaskList {
 	
 	@OneToMany(mappedBy = "taskList")
 	@Cascade(value = {CascadeType.DELETE})
-	private List<Task> tasks;
+	private final List<Task> tasks;
 	
 	public TaskList() {
 		tasks = new ArrayList<>();
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	
-	public List<Task> getTasks() {
-		return tasks;
 	}
 
 	public void addTask(Task task) {

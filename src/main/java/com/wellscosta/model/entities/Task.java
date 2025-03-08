@@ -23,10 +23,17 @@ import javax.persistence.TemporalType;
 
 import com.wellscosta.model.enums.Marking;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "tb_task")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Task {
 	
 	@Id
@@ -52,67 +59,10 @@ public class Task {
 	referencedColumnName = "id", nullable = false)
 	protected TaskList taskList;
 	
-	public Task() {
-	}
-	
 	public Task(String name, Date date, String note, Marking mark) {
 		this.name = name;
 		this.date = date;
 		this.note = note;
 		this.mark = mark;
 	}
-
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getNote() {
-		return note;
-	}
-	
-	public void setNote(String note) {
-		this.note = note;
-	}
-	
-	public Marking getMark() {
-		return mark;
-	}
-	
-	public void setMark(Marking mark) {
-		this.mark = mark;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public TaskList getTaskList() {
-		return taskList;
-	}
-
-	public void setTaskList(TaskList taskList) {
-		this.taskList = taskList;
-	}
-
-	@Override
-	public String toString() {
-		return "Task [id=" + id + ", name=" + name + ", mark=" + mark + "]";
-	}
-
 }

@@ -8,7 +8,14 @@ import javax.persistence.TemporalType;
 
 import com.wellscosta.model.enums.Marking;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class Event extends Task{
 
 	@Temporal(TemporalType.TIME)
@@ -18,16 +25,4 @@ public class Event extends Task{
 		super(name, date, note, mark);
 		this.hour = hour;
 	}
-	
-	public Event() {
-	}
-
-	public Date getHour() {
-		return hour;
-	}
-
-	public void setHour(Date hour) {
-		this.hour = hour;
-	}
-	
 }
