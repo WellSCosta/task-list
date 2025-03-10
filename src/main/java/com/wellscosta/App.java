@@ -1,6 +1,6 @@
 package com.wellscosta;
 
-public class application {
+public class App {
     public static void main(String[] args) {
         
     }
