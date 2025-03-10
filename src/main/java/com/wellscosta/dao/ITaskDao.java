@@ -9,7 +9,7 @@ public interface ITaskDao {
 
 	void save(Task task);
 
-	void update(Task task);
+	Task update(Task task);
 	
 	Task search(Long id);
 	

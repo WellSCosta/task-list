@@ -26,8 +26,14 @@ public class TaskService implements ITaskService<Task> {
     }
 
     @Override
-    public Task updateTask(Task t) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Task updateTask(Task task) {
+        //TODO: create exception class for verification
+        try {
+            dao.search(task.getId());
+        } catch (IllegalArgumentException ex) {
+            throw new RuntimeException();
+        }
+        return dao.update(task);
     }
 
     @Override

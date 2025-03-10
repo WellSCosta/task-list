@@ -55,8 +55,10 @@ public class TaskTestService {
 
     @Test
 	public void saveTask() {
-        Task task = createTask();
+        var task = createTask();
 		service.saveTask(task);
+
+		assertNotNull(task.getId());
 
 		List<Task> tasks = taskDao.searchByName("TaskTest");
 		assertTrue(!tasks.isEmpty());
@@ -65,16 +67,43 @@ public class TaskTestService {
 
 	@Test(expected = RuntimeException.class)
 	public void doubleInsertionSaveTask() {
-        Task task = createTask();
-		Task task1 = createTask();
+        var task = createTask();
+		var task1 = createTask();
 
 		service.saveTask(task);
+		assertNotNull(task.getId());
 
 		List<Task> tasks = taskDao.searchByName("TaskTest");
 		assertTrue(!tasks.isEmpty());
 		assertEquals(1, tasks.size());
 
 		service.saveTask(task1);
+    }
+
+	@Test
+	public void updateTask() {
+        Task task = createTask();
+		service.saveTask(task);
+		Long id = task.getId();
+		assertNotNull(task);
+		assertNotNull(id);
+		assertEquals("TaskTest", task.getName());
+		
+		//update
+		task.setName("TaskTestUpdate");
+		service.updateTask(task);
+		assertNotNull(task);
+		assertNotNull(task.getId());
+		assertEquals(id, task.getId());
+		assertEquals("TaskTestUpdate", task.getName());
+    }
+
+	@Test(expected = RuntimeException.class)
+	public void updateErro() {
+        Task task = createTask();
+
+		task.setName("TaskTestUpdate");
+		service.updateTask(task);
     }
 	
     public Task createTask() {

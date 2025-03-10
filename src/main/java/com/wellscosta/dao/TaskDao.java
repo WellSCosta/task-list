@@ -29,13 +29,15 @@ public class TaskDao implements ITaskDao{
 	}
 
 	@Override
-	public void update(Task task) {
+	public Task update(Task task) {
 		openConnection();
 		
-		em.merge(task);
+		var taskUpdate = em.merge(task);
 		em.getTransaction().commit();
 		
 		closeConnection();
+
+		return taskUpdate;
 	}
 
 	@Override
